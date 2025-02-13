@@ -1,0 +1,48 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 98vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  position: relative;
+  background-color: lightgray;
+  border: 2px dashed #333;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.bottom-scrollable {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.scroll-item {
+  min-width: 150px;
+  height: 100px;
+  margin-right: 10px;
+  background-color: steelblue;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: grab;
+}
+
+.dropped-item {
+  width: 150px;
+  height: 100px;
+  background-color: darkorange;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  position: absolute;
+}
