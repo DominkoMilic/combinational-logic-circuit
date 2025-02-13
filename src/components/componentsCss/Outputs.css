@@ -1,0 +1,22 @@
+.output {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 25px;
+  width: 50px;
+  border-radius: 3px;
+  border: 1px solid black;
+  align-content: center;
+  text-align: left;
+  margin: 1px 0px;
+  background-color: grey;
+  font-size: large;
+  font-weight: bold;
+}
+
+.bulb-output {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background-color: red;
+  border: 1px solid black;
+}

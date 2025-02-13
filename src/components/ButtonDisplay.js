@@ -8,7 +8,7 @@ import {
   updateBulbsForCP,
 } from "./utilis/ButtonDisplayUtilis";
 
-const ButtonDisplay = () => {
+const ButtonDisplay = ({ setDroppedItems }) => {
   const [binaryRepresentation, setBinaryRepresentation] = useState("00000000");
   const [bulbColors, setBulbColors] = useState([
     "red",
@@ -50,10 +50,21 @@ const ButtonDisplay = () => {
     setBinaryRepresentation("00000000");
   };
 
+  const handleClearButtonClick = () => {
+    setDroppedItems([]);
+  };
+
   const bulbIds = ["7", "6", "5", "4", "3", "2", "1", "0"];
 
   return (
     <div className="button-display-container">
+      <button
+        className="clear-screen-button"
+        onClick={() => handleClearButtonClick()}
+      >
+        CLEAR
+      </button>
+
       <div className="left-container">
         <div className="bulbs-container">
           {bulbIds.map((bulbId) => (

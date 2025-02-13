@@ -1,0 +1,45 @@
+.input {
+  height: 70px;
+  width: 50px;
+  border-radius: 3px;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px 0;
+  background-color: grey;
+  font-size: large;
+  font-weight: bold;
+  position: relative;
+}
+
+.input-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.overline {
+  font-weight: bold;
+  position: relative;
+}
+
+.overline::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: black;
+}

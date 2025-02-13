@@ -46,3 +46,33 @@
   border-radius: 8px;
   position: absolute;
 }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 98vh;
+  position: relative;
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.inputs-container {
+  width: 50px;
+  background-color: #ddd;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-evenly;
+}
+
+.inputs-container.left {
+  order: -1;
+}
+
+.inputs-container.right {
+  order: 1;
+}

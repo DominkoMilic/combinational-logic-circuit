@@ -7,6 +7,7 @@ button:hover {
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
+  position: relative;
 }
 
 .left-container {
@@ -50,6 +51,7 @@ button:hover {
   height: 50px;
   border-radius: 50%;
   background-color: gray;
+  border: 1px solid black;
 }
 
 .buttons-container button {
@@ -59,4 +61,18 @@ button:hover {
   background-color: lightgray;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.clear-screen-button {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  width: 80px;
+  height: 40px;
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
 }

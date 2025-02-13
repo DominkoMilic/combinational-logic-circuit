@@ -1,82 +1,45 @@
 import "./App.css";
 import { useState } from "react";
-import { useDrag, useDrop, DndProvider } from "react-dnd";
+import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import ButtonDisplay from "./components/ButtonDisplay";
-
-const ItemType = "ITEM";
-
-function DraggableItem({ item, onDelete }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemType,
-    item: { ...item },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-
-  const handleRightClick = (e) => {
-    e.preventDefault();
-    onDelete(item.id);
-  };
-
-  return (
-    <div
-      ref={drag}
-      className="scroll-item"
-      onContextMenu={handleRightClick}
-      style={{ opacity: isDragging ? 0.5 : 1 }}
-    >
-      {item.content}
-    </div>
-  );
-}
-
-function DroppableArea({ droppedItems, onDrop, onItemDelete }) {
-  const [, drop] = useDrop(() => ({
-    accept: ItemType,
-    drop: (item, monitor) => {
-      const offset = monitor.getSourceClientOffset();
-      if (offset) {
-        onDrop(item, offset);
-      }
-    },
-  }));
-
-  return (
-    <div ref={drop} className="main-content">
-      {droppedItems.map((item, index) => (
-        <div
-          key={index}
-          className="dropped-item"
-          onContextMenu={(e) => {
-            e.preventDefault();
-            onItemDelete(item.id);
-          }}
-          style={{
-            position: "absolute",
-            left: `${item.x}px`,
-            top: `${item.y}px`,
-          }}
-        >
-          {item.content}
-        </div>
-      ))}
-    </div>
-  );
-}
+import Inputs from "./components/Inputs";
+import Outputs from "./components/Outputs";
+import DraggableItem from "./components/DraggableItem";
+import DroppableArea from "./components/DroppableArea";
+import SelectionPopup from "./components/SelectionPopup";
 
 function App() {
   const [droppedItems, setDroppedItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   let nextId = 1;
 
+  const handleItemClick = (item, e) => {
+    e.preventDefault();
+    setSelectedItem(item);
+    setPopupPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleClosePopup = () => {
+    setSelectedItem(null);
+  };
+
   const handleDrop = (item, offset) => {
+    const container = document.querySelector(".main-container");
+
+    if (!container) return;
+
+    const containerRect = container.getBoundingClientRect();
+
+    const adjustedX = offset.x - containerRect.left;
+    const adjustedY = offset.y - containerRect.top;
+
     setDroppedItems((prev) => [
       ...prev,
-      { ...item, id: nextId, x: offset.x, y: offset.y },
+      { ...item, id: nextId, x: adjustedX, y: adjustedY },
     ]);
     nextId += 1;
-    console.log("item id: ", nextId);
   };
 
   const handleItemDelete = (id) => {
@@ -104,12 +67,26 @@ function App() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="main-container">
-        <DroppableArea
-          droppedItems={droppedItems}
-          onDrop={handleDrop}
-          onItemDelete={handleItemDelete}
-        />
+      <div className="main-container" onClick={handleClosePopup}>
+        <div className="content-wrapper">
+          <div className="inputs-container">
+            <Inputs />
+          </div>
+          <DroppableArea
+            droppedItems={droppedItems}
+            onDrop={handleDrop}
+            onItemClick={handleItemClick}
+          />
+          <SelectionPopup
+            visible={!!selectedItem}
+            position={popupPosition}
+            selectedItem={selectedItem}
+            setDroppedItems={setDroppedItems}
+          />
+          <div className="output-container right">
+            <Outputs />
+          </div>
+        </div>
 
         <div className="bottom-screen">
           <div className="bottom-scrollable">
@@ -122,7 +99,7 @@ function App() {
             ))}
           </div>
           <div className="buttons-display">
-            <ButtonDisplay />
+            <ButtonDisplay setDroppedItems={setDroppedItems} />
           </div>
         </div>
       </div>
